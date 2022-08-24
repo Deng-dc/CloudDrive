@@ -16,4 +16,11 @@ public interface RegisterService {
      * @return
      */
     String userRegister(User user);
+
+    /**
+     * 用户注册的时候为其创建一个名为用户名的空间
+     * @param username
+     * @return
+     */
+    Boolean makeUserDrive(String username);
 }

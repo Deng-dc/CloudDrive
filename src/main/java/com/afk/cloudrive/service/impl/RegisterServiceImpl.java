@@ -7,9 +7,12 @@ import com.afk.cloudrive.pojo.User;
 import com.afk.cloudrive.service.RegisterService;
 import com.afk.cloudrive.util.IdUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
+
+import java.io.File;
 
 /**
  * @Author: dengcong
@@ -20,6 +23,9 @@ import org.springframework.util.StringUtils;
 public class RegisterServiceImpl implements RegisterService {
     @Autowired
     private UserMapper userMapper;
+
+    @Value("${file-server.home-dir}")
+    private String sysHomeDir;
 
     @Override
     public String userRegister(User user) {
@@ -43,4 +49,20 @@ public class RegisterServiceImpl implements RegisterService {
             return user.getUsername();
         }
     }
+
+    @Override
+    public Boolean makeUserDrive(String username) {
+        String userHomeDir = sysHomeDir + username + "\\";
+        try {
+            File path = new File(userHomeDir);
+            if (! path.exists()) {
+                path.mkdirs();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
 }

@@ -33,6 +33,7 @@ public class RegisterController {
     @ApiOperation(value = "用户注册")
     public ResponseMessage userRegister(@RequestBody User user) {
         registerService.userRegister(user);
+        registerService.makeUserDrive(user.getUsername());
         return ResponseMessage.success(ResultEnum.SUCCESS);
     }
 }

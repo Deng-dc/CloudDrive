@@ -5,11 +5,17 @@ import com.afk.cloudrive.exception.BusinessException;
 import com.afk.cloudrive.mapper.UserMapper;
 import com.afk.cloudrive.pojo.User;
 import com.afk.cloudrive.service.LoginService;
+import com.afk.cloudrive.service.RegisterService;
 import com.afk.cloudrive.util.TokenUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
+
+import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @Author: dengcong
@@ -20,6 +26,12 @@ import org.springframework.util.DigestUtils;
 public class LoginServiceImpl implements LoginService {
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private RegisterService registerService;
+
+    @Value("${file-server.home-dir}")
+    private String sysHomeDir;
 
     @Override
     public String userLogin(String username, String password) {
@@ -40,5 +52,14 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public Boolean checkToken(String token) {
         return TokenUtil.verifyToken(token);
+    }
+
+    @Override
+    public String getUserDrive(String username) {
+        if (registerService.makeUserDrive(username)) {
+            return sysHomeDir + username + "\\";
+        } else {
+            throw new BusinessException(ResultEnum.USER_DRIVE_NOT_EXISTS);
+        }
     }
 }

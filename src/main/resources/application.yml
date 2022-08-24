@@ -11,6 +11,10 @@ spring:
     url: jdbc:mysql://localhost:3306/cloudrive?characterEncoding=UTF-8&serverTimezone=UTC
     username: root
     password: root
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 500MB
 
 mybatis-plus:
   type-aliases-package: com.afk.cloudrive.pojo
@@ -19,5 +23,8 @@ mybatis-plus:
     map-underscore-to-camel-case: true
 
 file-server:
-  home-dir: C:/homeDir/
-  recycle-bin-dir: C:/recycleBinDir/
+  home-dir: C:\homeDir\
+  recycle-bin-dir: C:\recycleBinDir\
+  file-access-folder: /drive/
+
+ip-address: 192.168.31.203
