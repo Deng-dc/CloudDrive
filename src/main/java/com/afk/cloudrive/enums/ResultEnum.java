@@ -8,7 +8,7 @@ import lombok.Getter;
  * @Description: 定义返回的枚举类
  */
 public enum ResultEnum {
-    SUCCESS(1000, "成功"),
+    SUCCESS(1000, "success"),
     NEED_LOGIN(1001, "用户未登录"),
     EMPTY_USERNAME(1002, "用户名为空"),
     EMPTY_PASSWORD(1003, "密码为空"),
@@ -18,7 +18,8 @@ public enum ResultEnum {
     USER_DRIVE_NOT_EXISTS(1007, "用户云盘不存在"),
     NOT_A_DIR(1008, "不是文件夹"),
     DIR_NOT_EXISTS(1009, "文件夹不存在"),
-    UPLOAD_FILE_FAILED(1010, "上传文件失败");
+    UPLOAD_FILE_FAILED(1010, "上传文件失败"),
+    TOKEN_ERROR(1011, "token错误");
 
     @Getter
     private Integer code;

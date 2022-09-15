@@ -17,8 +17,9 @@ import java.util.Set;
  * @Description: com.afk.controller
  */
 @RestController
-@RequestMapping("/CloudDrive")
+@RequestMapping("/cloudrive")
 @Api(tags = "用户登录")
+@CrossOrigin
 public class LoginController {
     @Autowired
     private LoginService loginService;
@@ -28,7 +29,6 @@ public class LoginController {
 
     /**
      * 用户登录
-     * @param user
      * @return
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)

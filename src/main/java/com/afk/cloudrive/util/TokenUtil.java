@@ -5,6 +5,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -15,9 +16,11 @@ import java.util.Map;
  * @Date: 2022/8/17 - 08 - 17 - 19:15
  * @Description: com.afk.cloudrive
  */
+@Service
 public class TokenUtil {
     private static final String ENCRYPT_KEY = "CloudDrive";
 
+    // token过期时间为1小时
     private static final long EXPIRE_DATE = 60 * 60 * 1000;
 
     /**

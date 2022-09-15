@@ -7,10 +7,7 @@ import com.afk.cloudrive.service.RegisterService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Author: dengcong
@@ -18,8 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
  * @Description: com.afk.controller
  */
 @RestController
-@RequestMapping("/CloudDrive")
+@RequestMapping("/cloudrive")
 @Api(tags = "用户注册")
+@CrossOrigin
 public class RegisterController {
     @Autowired
     private RegisterService registerService;
