@@ -40,14 +40,13 @@ public class ResponseMessage {
 
     /**
      * 响应消息 success
-     * @param code
-     * @param msg
+     * @param resultEnum
      * @return
      */
-    public static ResponseMessage success(Integer code, String msg) {
+    public static ResponseMessage success(ResultEnum resultEnum) {
         ResponseMessage responseMessage = new ResponseMessage();
-        responseMessage.setCode(code);
-        responseMessage.setMsg(msg);
+        responseMessage.setCode(resultEnum.getCode());
+        responseMessage.setMsg(resultEnum.getMsg());
         return responseMessage;
     }
 

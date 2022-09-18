@@ -25,6 +25,6 @@ mybatis-plus:
 file-server:
   home-dir: C:\homeDir\
   recycle-bin-dir: C:\recycleBinDir\
-  file-access-folder: /drive/
+  file-access-folder: /user/drive/
 
 ip-address: 192.168.31.203

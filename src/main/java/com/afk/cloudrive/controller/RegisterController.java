@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
  * @Description: com.afk.controller
  */
 @RestController
-@RequestMapping("/cloudrive")
 @Api(tags = "用户注册")
 @CrossOrigin
 public class RegisterController {

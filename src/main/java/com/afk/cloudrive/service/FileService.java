@@ -1,5 +1,7 @@
 package com.afk.cloudrive.service;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.Date;
 import java.util.Set;
 
@@ -9,6 +11,16 @@ import java.util.Set;
  * @Description: com.afk.cloudrive.service
  */
 public interface FileService {
+
+    /**
+     * 上传文件的服务器，其目录为currentDir
+     * @param multipartFile
+     * @param currentDir
+     * @param username
+     * @return
+     */
+    Boolean uploadFile(MultipartFile multipartFile, String currentDir, String username);
+
     /**
      * 查看此目录下的所有文件和目录
      * @param dir

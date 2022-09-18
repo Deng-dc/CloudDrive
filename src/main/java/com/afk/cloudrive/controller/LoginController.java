@@ -17,7 +17,6 @@ import java.util.Set;
  * @Description: com.afk.controller
  */
 @RestController
-@RequestMapping("/cloudrive")
 @Api(tags = "用户登录")
 @CrossOrigin
 public class LoginController {
@@ -36,17 +35,5 @@ public class LoginController {
     public ResponseMessage userLogin(@RequestBody User user) {
         String token = loginService.userLogin(user.getUsername(), user.getPassword());
         return ResponseMessage.success(token);
-    }
-
-    /**
-     * 用户登录成功后要进入自己的云盘主页
-     * @param username
-     * @return
-     */
-    @RequestMapping(value = "/drive/{username}", method = RequestMethod.GET)
-    @ApiOperation(value = "进入主页")
-    public ResponseMessage userHome(@PathVariable String username) {
-        Set<String> listFiles = fileService.listFiles(loginService.getUserDrive(username));
-        return ResponseMessage.success(listFiles);
     }
 }

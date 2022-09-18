@@ -10,11 +10,13 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
@@ -24,6 +26,9 @@ import java.util.Set;
  */
 @Service
 public class FileServiceImpl implements FileService {
+    @Value("${file-server.home-dir}")
+    private String HOME_DIR;
+
     @Value("${file-server.file-access-folder}")
     private String FILE_ACCESS_FOLDER;
 
@@ -37,8 +42,38 @@ public class FileServiceImpl implements FileService {
     private FileMapper fileMapper;
 
     @Override
+    public Boolean uploadFile(MultipartFile multipartFile, String currentDir, String username) {
+        String fileName = multipartFile.getOriginalFilename();
+        System.out.println("上传的文件名 : " + fileName);
+        String absolutePath = HOME_DIR + username + "\\" + currentDir;
+        File path = new File(absolutePath);
+        if (! path.exists()) {
+            path.mkdirs();
+        }
+        System.out.println("文件存放的目录 : " + absolutePath);
+        try {
+            String fileSavePath = username + "\\" + currentDir + "\\" + fileName;
+            File file = new File(absolutePath + "\\" + fileName);
+            if (file.exists()) {
+                // 同一目录下文件重名时  需重命名
+                String newName = renameFile(fileName, new Date(System.currentTimeMillis()));
+                File newFile = new File(absolutePath + "\\" + newName);
+                multipartFile.transferTo(newFile);
+                String newFileSavePath = username + "\\" + currentDir + "\\" + newName;
+                storeFile(newName, newFileSavePath, username, new Date(System.currentTimeMillis()));
+            } else {
+                multipartFile.transferTo(file);
+                storeFile(fileName, fileSavePath, username, new Date(System.currentTimeMillis()));
+            }
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+    @Override
     public Set<String> listFiles(String dir) {
-        Set<String> fileNames = new HashSet<>();
+        Set<String> fileNames = new LinkedHashSet<>();
         File fileDir = new File(dir);
         if (fileDir.isDirectory()) {
             File[] files = fileDir.listFiles();
