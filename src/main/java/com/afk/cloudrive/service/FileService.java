@@ -2,8 +2,8 @@ package com.afk.cloudrive.service;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.Set;
 
 /**
  * @Author: dengcong
@@ -22,11 +22,18 @@ public interface FileService {
     Boolean uploadFile(MultipartFile multipartFile, String currentDir, String username);
 
     /**
-     * 查看此目录下的所有文件和目录
+     * 获取此目录下的所有文件
      * @param dir
      * @return
      */
-    Set<String> listFiles(String dir);
+    ArrayList<String> listFiles(String dir);
+
+    /**
+     * 获取此目录下的所有目录
+     * @param dir
+     * @return
+     */
+    ArrayList<String> listDirs(String dir);
 
     /**
      * 在数据库中存储文件

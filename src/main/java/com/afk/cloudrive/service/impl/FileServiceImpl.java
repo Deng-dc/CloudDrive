@@ -7,6 +7,7 @@ import com.afk.cloudrive.pojo.CloudFile;
 import com.afk.cloudrive.service.FileService;
 import com.afk.cloudrive.util.IdUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.sun.org.apache.bcel.internal.generic.ARRAYLENGTH;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -72,17 +74,38 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public Set<String> listFiles(String dir) {
-        Set<String> fileNames = new LinkedHashSet<>();
+    public ArrayList<String> listFiles(String dir) {
+        ArrayList<String> fileNames = new ArrayList<>();
         File fileDir = new File(dir);
         if (fileDir.isDirectory()) {
             File[] files = fileDir.listFiles();
             if (files != null) {
                 for (File file : files) {
-                    fileNames.add(file.getName());
+                    if (file.isFile()) {
+                        fileNames.add(file.getName());
+                    }
                 }
             }
             return fileNames;
+        } else {
+            throw new BusinessException(ResultEnum.NOT_A_DIR);
+        }
+    }
+
+    @Override
+    public ArrayList<String> listDirs(String dir) {
+        ArrayList<String> dirNames = new ArrayList<>();
+        File fileDir = new File(dir);
+        if (fileDir.isDirectory()) {
+            File[] files = fileDir.listFiles();
+            if (files != null) {
+                for (File file : files) {
+                    if (file.isDirectory()) {
+                        dirNames.add(file.getName());
+                    }
+                }
+            }
+            return dirNames;
         } else {
             throw new BusinessException(ResultEnum.NOT_A_DIR);
         }
