@@ -6,8 +6,8 @@ import com.afk.cloudrive.mapper.FileMapper;
 import com.afk.cloudrive.pojo.CloudFile;
 import com.afk.cloudrive.service.FileService;
 import com.afk.cloudrive.util.IdUtil;
+import com.afk.cloudrive.vo.FileVO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.sun.org.apache.bcel.internal.generic.ARRAYLENGTH;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -18,8 +18,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 /**
  * @Author: dengcong
@@ -74,38 +72,32 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public ArrayList<String> listFiles(String dir) {
-        ArrayList<String> fileNames = new ArrayList<>();
-        File fileDir = new File(dir);
-        if (fileDir.isDirectory()) {
-            File[] files = fileDir.listFiles();
-            if (files != null) {
-                for (File file : files) {
-                    if (file.isFile()) {
-                        fileNames.add(file.getName());
-                    }
+    public ArrayList<FileVO> listFiles(String dir) {
+        File path = new File(dir);
+        ArrayList<FileVO> fileList = new ArrayList<>();
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        if (path.isDirectory()) {
+            File[] files = path.listFiles();
+            for (File file : files) {
+                if (file.isFile()) {
+                    FileVO fileVO = new FileVO();
+                    fileVO.setFilename(file.getName());
+                    fileVO.setWhetherDir(false);
+                    fileVO.setFileSize(String.valueOf(file.length()) + "B");
+                    fileVO.setLastModifyTime(sf.format(file.lastModified()));
+                    fileList.add(fileVO);
+                } else if (file.isDirectory()) {
+                    FileVO fileVO = new FileVO();
+                    fileVO.setFilename(file.getName());
+                    fileVO.setWhetherDir(true);
+                    fileVO.setFileSize("-");
+                    fileVO.setLastModifyTime(sf.format(file.lastModified()));
+                    fileList.add(fileVO);
+                } else {
+                    throw new BusinessException(ResultEnum.UNKNOWN_FILE_TYPE);
                 }
             }
-            return fileNames;
-        } else {
-            throw new BusinessException(ResultEnum.NOT_A_DIR);
-        }
-    }
-
-    @Override
-    public ArrayList<String> listDirs(String dir) {
-        ArrayList<String> dirNames = new ArrayList<>();
-        File fileDir = new File(dir);
-        if (fileDir.isDirectory()) {
-            File[] files = fileDir.listFiles();
-            if (files != null) {
-                for (File file : files) {
-                    if (file.isDirectory()) {
-                        dirNames.add(file.getName());
-                    }
-                }
-            }
-            return dirNames;
+            return fileList;
         } else {
             throw new BusinessException(ResultEnum.NOT_A_DIR);
         }

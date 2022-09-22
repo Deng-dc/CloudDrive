@@ -8,6 +8,7 @@ import com.afk.cloudrive.service.FileService;
 import com.afk.cloudrive.service.UserService;
 import com.afk.cloudrive.util.MyComparator;
 import com.afk.cloudrive.util.TokenUtil;
+import com.afk.cloudrive.vo.FileVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,14 +65,7 @@ public class UserController {
     @ApiOperation("获取用户根目录下的所有文件")
     public ResponseMessage listUserHomeFiles(@PathVariable("username") String username) {
         String homeDir = sysHomeDir + username + "\\";
-        ArrayList<String> listDirs = fileService.listDirs(homeDir);
-        listDirs.sort(new MyComparator());
-        ArrayList<String> listFiles = fileService.listFiles(homeDir);
-        listFiles.sort(new MyComparator());
-        ArrayList<String> homeDirFiles = new ArrayList<>();
-        homeDirFiles.addAll(listDirs);
-        homeDirFiles.add("=========");
-        homeDirFiles.addAll(listFiles);
-        return ResponseMessage.success(homeDirFiles);
+        ArrayList<FileVO> fileVOS = fileService.listFiles(homeDir);
+        return ResponseMessage.success(fileVOS);
     }
 }

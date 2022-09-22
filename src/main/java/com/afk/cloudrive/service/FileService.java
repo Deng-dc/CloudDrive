@@ -1,5 +1,6 @@
 package com.afk.cloudrive.service;
 
+import com.afk.cloudrive.vo.FileVO;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -22,18 +23,11 @@ public interface FileService {
     Boolean uploadFile(MultipartFile multipartFile, String currentDir, String username);
 
     /**
-     * 获取此目录下的所有文件
+     * 列出对应dir下所有的文件
      * @param dir
      * @return
      */
-    ArrayList<String> listFiles(String dir);
-
-    /**
-     * 获取此目录下的所有目录
-     * @param dir
-     * @return
-     */
-    ArrayList<String> listDirs(String dir);
+    ArrayList<FileVO> listFiles(String dir);
 
     /**
      * 在数据库中存储文件

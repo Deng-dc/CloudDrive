@@ -16,10 +16,11 @@ public enum ResultEnum {
     USER_IS_NOT_REGISTERED(1005, "用户未注册"),
     PASSWORD_ERROR(1006, "密码错误"),
     USER_DRIVE_NOT_EXISTS(1007, "用户云盘不存在"),
-    NOT_A_DIR(1008, "不是文件夹"),
     DIR_NOT_EXISTS(1009, "文件夹不存在"),
     UPLOAD_FILE_FAILED(1010, "上传文件失败"),
-    TOKEN_ERROR(1011, "token错误");
+    TOKEN_ERROR(1011, "token错误"),
+    NOT_A_DIR(2001, "这不是一个目录"),
+    UNKNOWN_FILE_TYPE(2002, "");
 
     @Getter
     private Integer code;

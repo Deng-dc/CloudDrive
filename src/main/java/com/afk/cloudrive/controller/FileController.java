@@ -23,6 +23,7 @@ import java.util.Date;
  */
 @RestController
 @Api(tags = "文件")
+@CrossOrigin
 public class FileController {
 
     @Autowired
