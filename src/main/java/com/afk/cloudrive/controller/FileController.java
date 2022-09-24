@@ -29,13 +29,24 @@ public class FileController {
     @Autowired
     private FileService fileService;
 
+    /**
+     * 上传文件
+     * @param multipartFile
+     * @param dir
+     * @param token
+     * @return
+     */
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     @ApiOperation("上传文件")
     public ResponseMessage uploadFile(@RequestParam("file") MultipartFile multipartFile,
-                                      @RequestParam("directory") String dir,
+                                      @RequestParam("directory") String[] dir,
                                       @RequestParam("token") String token) {
         String username = TokenUtil.getUsername(token);
-        Boolean uploadResult = fileService.uploadFile(multipartFile, dir, username);
+        StringBuilder distDir = new StringBuilder();
+        for (String s : dir) {
+            distDir.append(s).append("\\");
+        }
+        Boolean uploadResult = fileService.uploadFile(multipartFile, distDir.toString(), username);
         if (uploadResult) {
             return ResponseMessage.success(ResultEnum.SUCCESS);
         } else {
@@ -43,6 +54,11 @@ public class FileController {
         }
     }
 
+    /**
+     * 加载文件的http链接
+     * @param fileTimestamp
+     * @return
+     */
     @RequestMapping(value = "/loadFile", method = RequestMethod.GET)
     @ApiOperation("加载文件的http链接")
     public ResponseMessage getFile(@RequestParam("fileTimestamp") String fileTimestamp) {

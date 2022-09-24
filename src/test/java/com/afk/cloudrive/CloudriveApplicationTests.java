@@ -32,14 +32,14 @@ class CloudriveApplicationTests {
                                 " time: " + sf.format(file.lastModified()));
                         FileVO fileVO = new FileVO();
                         fileVO.setFilename(file.getName());
-                        fileVO.setWhetherDir(false);
+//                        fileVO.setWhetherDir(false);
                         fileVO.setFileSize(String.valueOf(file.length()));
                         fileVO.setLastModifyTime(sf.format(file.lastModified()));
                         System.out.println("file vo : " + fileVO);
                     } else if (file.isDirectory()){
                         FileVO fileVO = new FileVO();
                         fileVO.setFilename(file.getName());
-                        fileVO.setWhetherDir(true);
+//                        fileVO.setWhetherDir(true);
                         fileVO.setFileSize("-");
                         fileVO.setLastModifyTime(sf.format(file.lastModified()));
                         System.out.println("dir vo : " + fileVO);

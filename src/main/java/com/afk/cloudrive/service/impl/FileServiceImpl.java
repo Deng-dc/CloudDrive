@@ -82,14 +82,12 @@ public class FileServiceImpl implements FileService {
                 if (file.isFile()) {
                     FileVO fileVO = new FileVO();
                     fileVO.setFilename(file.getName());
-                    fileVO.setWhetherDir(false);
                     fileVO.setFileSize(String.valueOf(file.length()) + "B");
                     fileVO.setLastModifyTime(sf.format(file.lastModified()));
                     fileList.add(fileVO);
                 } else if (file.isDirectory()) {
                     FileVO fileVO = new FileVO();
                     fileVO.setFilename(file.getName());
-                    fileVO.setWhetherDir(true);
                     fileVO.setFileSize("-");
                     fileVO.setLastModifyTime(sf.format(file.lastModified()));
                     fileList.add(fileVO);

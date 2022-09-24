@@ -19,11 +19,6 @@ public class FileVO {
     private String filename;
 
     /**
-     * 目录还是文件
-     */
-    private boolean whetherDir;
-
-    /**
      * 上一次修改时间
      */
     private String lastModifyTime;

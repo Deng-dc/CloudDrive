@@ -56,16 +56,36 @@ public class UserController {
         }
     }
 
+//    /**
+//     * 获取用户根目录下的文件列表
+//     * @param username
+//     * @return
+//     */
+//    @RequestMapping(value = "/drive/{username}", method = RequestMethod.GET)
+//    @ApiOperation("获取用户根目录下的所有文件")
+//    public ResponseMessage listUserHomeFiles(@PathVariable("username") String username) {
+//        String homeDir = sysHomeDir + username + "\\";
+//        ArrayList<FileVO> fileVOS = fileService.listFiles(homeDir);
+//        return ResponseMessage.success(fileVOS);
+//    }
+
     /**
-     * 获取用户根目录下的文件列表
+     * 获取对应目录下的文件
      * @param username
+     * @param path
      * @return
      */
-    @RequestMapping(value = "/drive/{username}/", method = RequestMethod.GET)
-    @ApiOperation("获取用户根目录下的所有文件")
-    public ResponseMessage listUserHomeFiles(@PathVariable("username") String username) {
-        String homeDir = sysHomeDir + username + "\\";
-        ArrayList<FileVO> fileVOS = fileService.listFiles(homeDir);
+    @RequestMapping(value = "/drive/{username}", method = RequestMethod.GET)
+    @ApiOperation("获取传入目录下的文件列表")
+    public ResponseMessage listDirFiles(@PathVariable("username") String username,
+                                        @RequestParam("path") String[] path) {
+        System.out.println("=====> 获取传入目录下的文件列表");
+        StringBuilder dir = new StringBuilder();
+        for (String s : path) {
+            dir.append(s).append("\\");
+        }
+        String distPath = sysHomeDir + username + "\\" + dir;
+        ArrayList<FileVO> fileVOS = fileService.listFiles(distPath);
         return ResponseMessage.success(fileVOS);
     }
 }
