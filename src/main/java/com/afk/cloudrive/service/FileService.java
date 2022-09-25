@@ -53,4 +53,12 @@ public interface FileService {
      * @return
      */
     String renameFile(String filename, Date date);
+
+    /**
+     * 对应path下新建文件夹
+     * @param username
+     * @param path
+     * @return
+     */
+    Boolean createNewDir(String username, String path);
 }

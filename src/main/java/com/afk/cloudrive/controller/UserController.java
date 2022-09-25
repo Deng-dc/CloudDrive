@@ -1,5 +1,6 @@
 package com.afk.cloudrive.controller;
 
+import com.afk.cloudrive.dto.PathDTO;
 import com.afk.cloudrive.enums.ResultEnum;
 import com.afk.cloudrive.exception.BusinessException;
 import com.afk.cloudrive.pojo.User;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -75,14 +77,17 @@ public class UserController {
      * @param path
      * @return
      */
-    @RequestMapping(value = "/drive/{username}", method = RequestMethod.GET)
+    @RequestMapping(value = "/drive/{username}", method = RequestMethod.POST)
     @ApiOperation("获取传入目录下的文件列表")
     public ResponseMessage listDirFiles(@PathVariable("username") String username,
-                                        @RequestParam("path") String[] path) {
-        System.out.println("=====> 获取传入目录下的文件列表");
+                                        @RequestBody List<PathDTO> path) {
         StringBuilder dir = new StringBuilder();
-        for (String s : path) {
-            dir.append(s).append("\\");
+        for (Object obj : path) {
+            if (obj instanceof PathDTO) {
+                dir.append(((PathDTO) obj).getPath()).append("\\");
+            } else {
+                System.out.println("前端路径参数错误");
+            }
         }
         String distPath = sysHomeDir + username + "\\" + dir;
         ArrayList<FileVO> fileVOS = fileService.listFiles(distPath);

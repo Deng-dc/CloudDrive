@@ -1,5 +1,6 @@
 package com.afk.cloudrive.controller;
 
+import com.afk.cloudrive.dto.PathDTO;
 import com.afk.cloudrive.enums.ResultEnum;
 import com.afk.cloudrive.exception.BusinessException;
 import com.afk.cloudrive.response.ResponseMessage;
@@ -15,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Author: dengcong
@@ -39,7 +41,7 @@ public class FileController {
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     @ApiOperation("上传文件")
     public ResponseMessage uploadFile(@RequestParam("file") MultipartFile multipartFile,
-                                      @RequestParam("directory") String[] dir,
+                                      @RequestParam("directory") List<String> dir,
                                       @RequestParam("token") String token) {
         String username = TokenUtil.getUsername(token);
         StringBuilder distDir = new StringBuilder();
@@ -51,6 +53,30 @@ public class FileController {
             return ResponseMessage.success(ResultEnum.SUCCESS);
         } else {
             return ResponseMessage.error(ResultEnum.UPLOAD_FILE_FAILED);
+        }
+    }
+
+    /**
+     * 用户在目录下创建新的文件夹
+     * @param path
+     * @param newDir
+     * @return
+     */
+    @RequestMapping(value = "/createNewDir", method = RequestMethod.POST)
+    public ResponseMessage createNewDirectory(@RequestParam("path") List<String> path,
+                                              @RequestParam("newDir") String newDir,
+                                              @RequestParam("token") String token) {
+        String username = TokenUtil.getUsername(token);
+        StringBuilder distDir = new StringBuilder();
+        for (String s : path) {
+            distDir.append(s).append("\\");
+        }
+        String s = distDir.toString() + newDir;
+        Boolean createResult = fileService.createNewDir(username, s);
+        if (createResult) {
+            return ResponseMessage.success(newDir);
+        } else {
+            return ResponseMessage.error(ResultEnum.CREATE_DIR_FAILED);
         }
     }
 

@@ -82,7 +82,7 @@ public class FileServiceImpl implements FileService {
                 if (file.isFile()) {
                     FileVO fileVO = new FileVO();
                     fileVO.setFilename(file.getName());
-                    fileVO.setFileSize(String.valueOf(file.length()) + "B");
+                    fileVO.setFileSize(String.valueOf(file.length()) + " B");
                     fileVO.setLastModifyTime(sf.format(file.lastModified()));
                     fileList.add(fileVO);
                 } else if (file.isDirectory()) {
@@ -132,5 +132,21 @@ public class FileServiceImpl implements FileService {
         String name = filename.substring(0, filename.lastIndexOf("."));
         String tail = format.format(date);
         return name + "_" + tail + "." + suffix;
+    }
+
+    @Override
+    public Boolean createNewDir(String username, String path) {
+        String absolutePath = HOME_DIR + username + "\\" + path;
+        File createPath = new File(absolutePath);
+        if (! createPath.exists()) {
+            boolean mkdirResult = createPath.mkdirs();
+            if (mkdirResult) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 }
