@@ -45,5 +45,5 @@ public class CloudFile {
     /**
      * 文件上传的时间戳
      */
-    private Date fileUploadTime;
+    private String fileUploadTime;
 }

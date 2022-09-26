@@ -80,15 +80,29 @@ public class FileController {
         }
     }
 
+//    /**
+//     * 加载文件的http链接
+//     * @param fileTimestamp
+//     * @return
+//     */
+//    @RequestMapping(value = "/loadFile", method = RequestMethod.GET)
+//    @ApiOperation("加载文件的http链接")
+//    public ResponseMessage getFile(@RequestParam("fileTimestamp") String fileTimestamp) {
+//        String fileHttpUrl = fileService.getFileHttpUrl(fileTimestamp);
+//        System.out.println("文件的http访问链接 : " + fileHttpUrl);
+//        return ResponseMessage.success(fileHttpUrl);
+//    }
+
     /**
-     * 加载文件的http链接
-     * @param fileTimestamp
+     * 获取文件加载的http链接
+     * @param fileTimeStamp
+     * @param filename
      * @return
      */
     @RequestMapping(value = "/loadFile", method = RequestMethod.GET)
-    @ApiOperation("加载文件的http链接")
-    public ResponseMessage getFile(@RequestParam("fileTimestamp") String fileTimestamp) {
-        String fileHttpUrl = fileService.getFileHttpUrl(fileTimestamp);
+    public ResponseMessage getFileUrl(@RequestParam("fileTimestamp") String fileTimeStamp,
+                                      @RequestParam("filename") String filename) {
+        String fileHttpUrl = fileService.getFileHttpUrl(fileTimeStamp, filename);
         System.out.println("文件的http访问链接 : " + fileHttpUrl);
         return ResponseMessage.success(fileHttpUrl);
     }

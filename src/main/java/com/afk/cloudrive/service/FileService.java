@@ -37,14 +37,15 @@ public interface FileService {
      * @param timestamp
      * @return
      */
-    Boolean storeFile(String originalFileName, String filePath, String username, Date timestamp);
+    Boolean storeFile(String originalFileName, String filePath, String username, String timestamp);
 
     /**
      * 拿到文件的http链接
      * @param fileTimestamp
+     * @param filename
      * @return
      */
-    String getFileHttpUrl(String fileTimestamp);
+    String getFileHttpUrl(String fileTimestamp, String filename);
 
     /**
      * 重命名重名文件

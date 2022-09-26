@@ -51,19 +51,22 @@ public class FileServiceImpl implements FileService {
             path.mkdirs();
         }
         System.out.println("文件存放的目录 : " + absolutePath);
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
-            String fileSavePath = username + "\\" + currentDir + "\\" + fileName;
-            File file = new File(absolutePath + "\\" + fileName);
+            String fileSavePath = username + "\\" + currentDir + fileName;
+            File file = new File(absolutePath + fileName);
             if (file.exists()) {
                 // 同一目录下文件重名时  需重命名
                 String newName = renameFile(fileName, new Date(System.currentTimeMillis()));
-                File newFile = new File(absolutePath + "\\" + newName);
+                File newFile = new File(absolutePath + newName);
                 multipartFile.transferTo(newFile);
-                String newFileSavePath = username + "\\" + currentDir + "\\" + newName;
-                storeFile(newName, newFileSavePath, username, new Date(System.currentTimeMillis()));
+                String newFileSavePath = username + "\\" + currentDir + newName;
+                System.out.println("after upload file timestamp : " + sf.format(newFile.lastModified()));
+                storeFile(newName, newFileSavePath, username, sf.format(newFile.lastModified()));
             } else {
                 multipartFile.transferTo(file);
-                storeFile(fileName, fileSavePath, username, new Date(System.currentTimeMillis()));
+                System.out.println("after upload file timestamp : " + sf.format(file.lastModified()));
+                storeFile(fileName, fileSavePath, username, sf.format(file.lastModified()));
             }
             return true;
         } catch (IOException e) {
@@ -102,7 +105,7 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public Boolean storeFile(String originalFileName, String filePath, String username, Date timestamp) {
+    public Boolean storeFile(String originalFileName, String filePath, String username, String timestamp) {
         String suffix = originalFileName.substring(originalFileName.lastIndexOf('.') + 1);
         CloudFile file = new CloudFile();
         file.setId(IdUtil.getUUID());
@@ -116,10 +119,12 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public String getFileHttpUrl(String fileTimestamp) {
+    public String getFileHttpUrl(String fileTimestamp, String filename) {
         LambdaQueryWrapper<CloudFile> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(CloudFile::getFileUploadTime, fileTimestamp);
+        queryWrapper.eq(CloudFile::getFilename, filename);
         CloudFile selectedFile = fileMapper.selectOne(queryWrapper);
+        System.out.println(selectedFile.getFilePath());
         String filePath = selectedFile.getFilePath().replace("\\", "/");
         return "http://" + IP_ADDRESS + ":" + PORT  + FILE_ACCESS_FOLDER +
                     filePath;

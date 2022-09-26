@@ -8,7 +8,7 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/cloudrive?characterEncoding=UTF-8&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/cloudrive?characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
     username: root
     password: root
   servlet:
@@ -25,6 +25,6 @@ mybatis-plus:
 file-server:
   home-dir: C:\homeDir\
   recycle-bin-dir: C:\recycleBinDir\
-  file-access-folder: /user/drive/
+  file-access-folder: /drive/
 
 ip-address: 192.168.31.203
