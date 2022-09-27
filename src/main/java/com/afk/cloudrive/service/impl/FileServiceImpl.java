@@ -5,6 +5,7 @@ import com.afk.cloudrive.exception.BusinessException;
 import com.afk.cloudrive.mapper.FileMapper;
 import com.afk.cloudrive.pojo.CloudFile;
 import com.afk.cloudrive.service.FileService;
+import com.afk.cloudrive.util.FileTypeCodeUtil;
 import com.afk.cloudrive.util.IdUtil;
 import com.afk.cloudrive.vo.FileVO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -84,15 +85,25 @@ public class FileServiceImpl implements FileService {
             for (File file : files) {
                 if (file.isFile()) {
                     FileVO fileVO = new FileVO();
+                    String fileType = file.getName().substring(file.getName().lastIndexOf(".") + 1);
+//                    String fileTypeCode = FileTypeCodeUtil.getFileTypeCode(fileType);
                     fileVO.setFilename(file.getName());
                     fileVO.setFileSize(String.valueOf(file.length()) + " B");
                     fileVO.setLastModifyTime(sf.format(file.lastModified()));
+                    fileVO.setFileType(fileType);
+                    if (FileTypeCodeUtil.getFileTypeCode(fileType) == null) {
+                        fileVO.setFileTypeCode("5");
+                    } else {
+                        fileVO.setFileTypeCode(FileTypeCodeUtil.getFileTypeCode(fileType));
+                    }
                     fileList.add(fileVO);
                 } else if (file.isDirectory()) {
                     FileVO fileVO = new FileVO();
                     fileVO.setFilename(file.getName());
                     fileVO.setFileSize("-");
                     fileVO.setLastModifyTime(sf.format(file.lastModified()));
+                    fileVO.setFileType("directory");
+                    fileVO.setFileTypeCode("0");
                     fileList.add(fileVO);
                 } else {
                     throw new BusinessException(ResultEnum.UNKNOWN_FILE_TYPE);
