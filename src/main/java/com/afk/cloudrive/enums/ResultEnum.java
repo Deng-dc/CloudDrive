@@ -21,6 +21,8 @@ public enum ResultEnum {
     UPLOAD_FILE_FAILED(1010, "上传文件失败"),
     TOKEN_ERROR(1011, "token错误"),
     CREATE_DIR_FAILED(1012, "创建文件夹失败"),
+    UPLOAD_AVATAR_FAILED(1013, "头像上传失败"),
+    UPLOAD_AVATAR_SUCCESS(1014, "头像上传成功"),
     NOT_A_DIR(2001, "这不是一个目录"),
     UNKNOWN_FILE_TYPE(2002, "");
 

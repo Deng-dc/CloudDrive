@@ -15,6 +15,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -92,5 +93,19 @@ public class UserController {
         String distPath = sysHomeDir + username + "\\" + dir;
         ArrayList<FileVO> fileVOS = fileService.listFiles(distPath);
         return ResponseMessage.success(fileVOS);
+    }
+
+    /**
+     * 用户上传头像并返回头像访问链接
+     * @param multipartFile
+     * @param username
+     * @return
+     */
+    @RequestMapping(value = "/uploadFaceImg", method = RequestMethod.POST)
+    @ApiOperation("用户上传头像")
+    public  ResponseMessage uploadFaceImg(@RequestParam("avatar") MultipartFile multipartFile,
+                                          @RequestParam("username") String username) {
+        String avatarHttpUrl = userService.uploadAvatar(multipartFile, username);
+        return ResponseMessage.success(avatarHttpUrl);
     }
 }

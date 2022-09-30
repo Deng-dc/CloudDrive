@@ -16,10 +16,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebMvcConfig implements WebMvcConfigurer {
 
     @Value("${file-server.home-dir}")
-    private String sysHomeDir;
+    private String HOME_DIR;
+
+    @Value("${file-server.avatar-dir}")
+    private String AVATAR_DIR;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/drive/**").addResourceLocations("file:" + sysHomeDir);
+        registry.addResourceHandler("/drive/**").addResourceLocations("file:" + HOME_DIR);
+        registry.addResourceHandler("/avatar/**").addResourceLocations("file:" + AVATAR_DIR);
     }
 }

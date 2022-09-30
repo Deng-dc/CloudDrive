@@ -23,8 +23,10 @@ mybatis-plus:
     map-underscore-to-camel-case: true
 
 file-server:
-  home-dir: C:\homeDir\
+  home-dir: C:\homeDir\Drive\
   recycle-bin-dir: C:\recycleBinDir\
   file-access-folder: /drive/
+  avatar-dir: C:\homeDir\Avatar\
+  avatar-access-folder: /avatar/
 
 ip-address: 192.168.31.203
